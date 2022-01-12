@@ -49,8 +49,19 @@ int main() {
                 break;
         }
 
+        // clear previous amogus
+        _x = 0;
+        _y = 0;
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                mvaddch(posy-vely +_y, posx-velx+_x, ' ');
+                _x++;
+            }
+            _x = 0;
+            _y++;
+        }
+
         // render amogus
-        clear();
         _x = 0;
         _y = 0;
         for (int i = 0; i < HEIGHT; i++) {
