@@ -33,3 +33,8 @@
 
 cmake-build-debug
 .idea
+CMakeFiles
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+cBounce
