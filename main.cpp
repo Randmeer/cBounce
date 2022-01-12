@@ -1,12 +1,14 @@
 #include <ncurses.h>
 #include <clocale>
+#include <stdlib.h>
+#include <string.h>
 
 using namespace std;
 
 #define WIDTH 12
 #define HEIGHT 7
 
-int main() {
+int main(int argc, char *argv[]) {
     // init
     setlocale(LC_ALL, "");
     initscr();
@@ -28,8 +30,22 @@ int main() {
 
     int posx = 0;
     int posy = 0;
-    int velx = 2;
-    int vely = 1;
+    int speed = 1;
+    int delay = 16;
+
+    // process arguments
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-s") == 0) {
+            speed = atoi(argv[i+1]);
+            i++;
+        } else if (strcmp(argv[i], "-d") == 0) {
+            delay = atoi(argv[i+1]);
+            i++;
+        }
+    }
+
+    int velx = speed*2;
+    int vely = speed;
     int _x, _y;
     int row,col;
     getmaxyx(stdscr,row,col);
@@ -38,7 +54,7 @@ int main() {
     while (!quit) {
 
         // clock
-        timeout(16);
+        timeout(delay);
 
         // handle input
         int input;
