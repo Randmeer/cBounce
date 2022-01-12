@@ -54,12 +54,16 @@ int main() {
         _y = 0;
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                mvaddch(posy-vely +_y, posx-velx+_x, ' ');
+                mvaddch(posy+_y, posx+_x, ' ');
                 _x++;
             }
             _x = 0;
             _y++;
         }
+
+        // move amogus
+        posx += velx;
+        posy += vely;
 
         // render amogus
         _x = 0;
@@ -73,10 +77,6 @@ int main() {
             _x = 0;
             _y++;
         }
-
-        // move amogus
-        posx += velx;
-        posy += vely;
 
         // check amogus collision
         if (posx+WIDTH >= col || posx <= 0) velx *= -1;
