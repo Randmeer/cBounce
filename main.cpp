@@ -10,8 +10,6 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-
-
     // init
     setlocale(LC_ALL, "");
     initscr();
@@ -20,12 +18,14 @@ int main(int argc, char *argv[]) {
     keypad(stdscr, true);
     noecho();
     curs_set(0);
-
     // default values
     int posx = 0;
     int posy = 0;
     int speed = 1;
     int delay = 16;
+    int logo_total = 0;
+    int logo_columns = 0;
+    int logo_rows = 0;
     string logopath = "logo0.txt";
 
     // process arguments
@@ -38,6 +38,12 @@ int main(int argc, char *argv[]) {
             i++;
         } else if (strcmp(argv[i], "-l") == 0) {
             logopath = argv[i+1];
+            i++;
+        } else if (strcmp(argv[i], "-f") == 0) {
+            string command = "figlet \"" + (string) argv[i+1] + "\" > _cbounce.txt";
+            const char * _command = command.c_str();
+            system(_command);
+            logopath = "_cbounce.txt";
             i++;
         }
     }
@@ -54,9 +60,7 @@ int main(int argc, char *argv[]) {
     while (input_file.get(byte)) {
         bytes.push_back(byte);
     }
-    int logo_total = 0;
-    int logo_columns = 0;
-    int logo_rows = 0;
+    if (filename == "_cbounce.txt") bytes.pop_back(); // remove figlet's trailing newline
     for (const auto &i : bytes) {
         if (i == '\n') {
             logo_rows++;
@@ -77,6 +81,7 @@ int main(int argc, char *argv[]) {
         }
     }
     input_file.close();
+    if (logopath == "_cbounce.txt") remove("_cbounce.txt");
 
     int velx = speed*2;
     int vely = speed;
