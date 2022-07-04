@@ -19,7 +19,7 @@ cd cbounce
 ```
 sudo make install
 ```
-To uninstall m1vf-tools, run
+To uninstall cbounce, run
 ```
 sudo make uninstall
 ```
