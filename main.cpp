@@ -7,7 +7,10 @@
 
 using namespace std;
 
-void loadtxt(string &logo, string logopath, int &logo_total, int &logo_columns, int &logo_rows) {
+void loadtxt(string &logo, string logopath, int &logo_columns, int &logo_rows) {
+    int logo_total = 0;
+    logo_rows = 0;
+    logo_columns = 0;
 
     // read bytes from txt
     string filename(logopath);
@@ -20,7 +23,7 @@ void loadtxt(string &logo, string logopath, int &logo_total, int &logo_columns, 
     while (input_file.get(byte)) {
         bytes.push_back(byte);
     }
-    if (filename == "_cbounce.txt") bytes.pop_back(); // remove figlet's trailing newline
+    if (filename == "/tmp/_cbounce.txt") bytes.pop_back(); // remove figlet's trailing newline
 
     // calculate logo size
     for (const auto &i : bytes) {
@@ -65,10 +68,9 @@ int main(int argc, char *argv[]) {
     int posy = 0;
     int speed = 1;
     int delay = 200;
-    int logo_total = 0;
-    int logo_columns = 0;
-    int logo_rows = 0;
-    string logo;
+    int logo_columns = 8;
+    int logo_rows = 3;
+    string logo = " /----\\ |  ()  | \\----/ ";
 
     // process arguments
     for (int i = 1; i < argc; i++) {
@@ -78,14 +80,17 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[i-1], "-d") == 0) {
             delay = atoi(argv[i]);
         } else if (strcmp(argv[i-1], "-l") == 0) {
-            loadtxt(logo, argv[i], logo_total, logo_columns, logo_rows);
+            loadtxt(logo, argv[i], logo_columns, logo_rows);
         } else if (strcmp(argv[i-1], "-f") == 0) {
-            string command = "figlet \"" + (string) argv[i] + "\" > _cbounce.txt";
+            string command = "figlet \"" + (string) argv[i] + "\" > /tmp/_cbounce.txt";
             const char * _command = command.c_str();
             system(_command);
-            loadtxt(logo, "_cbounce.txt", logo_total, logo_columns, logo_rows);
+            loadtxt(logo, "/tmp/_cbounce.txt", logo_columns, logo_rows);
+            system("rm tmp/_cbounce.txt");
         } else if (strcmp(argv[i-1], "-t") == 0) {
-            logo = argv[i];
+            logo = (string) argv[i];
+            logo_columns = logo.length();
+            logo_rows = 1;
         } else i--;
     }
 
